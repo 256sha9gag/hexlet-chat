@@ -39,11 +39,11 @@ const SignInPage = () => {
       setAuthFailed(false);
 
       try {
-        const res = await axios.post(routes.loginPath(), values);
+        const res = await axios.post(routes.singInPath(), values);
         auth.signIn(res.data);
-        navigate({ pathname: '/' });
+        navigate({ pathname: routes.mainPage() });
       } catch (err) {
-        formik.setSubmitting(false); // не понятно зачем
+        formik.setSubmitting(false);
         if (err.isAxiosError && err.response.status === 401) {
           setAuthFailed(true);
           inputRef.current.select();
@@ -57,7 +57,7 @@ const SignInPage = () => {
   return (
     <div className="container-fluid bg-secondary h-100">
       <div className="row justify-content-center align-content-center h-100">
-        <div className="col-12 col-md-8 col-xxl-4">
+        <div className="col-8 col-md-6 col-xxl-4 mb-5">
           <Card className="text-center pt-3 mb-5">
             <Card.Body>
               <Card.Title>Sign in</Card.Title>
@@ -106,13 +106,13 @@ const SignInPage = () => {
                     {authFailed ? 'The username or password is incorrect.' : (formik.touched.username && formik.errors.username)}
                   </Form.Control.Feedback>
                 </FloatingLabel>
-                <Button type="submit">Sign in</Button>
+                <Button type="submit" disabled={formik.isSubmitting}>Sign in</Button>
               </Form>
             </Card.Body>
             <Card.Footer className="text-muted px-3">
               No account?
               {' '}
-              <a href="/signup"> Sign up</a>
+              <a href={routes.signUpPage()}> Sign up</a>
             </Card.Footer>
           </Card>
         </div>
