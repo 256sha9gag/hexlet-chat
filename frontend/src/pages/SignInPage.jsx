@@ -9,7 +9,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import routes from '../routes';
-import useAuth from '../hooks/index.jsx';
+import useAuth from '../hooks/authContext';
 
 const SignInPage = () => {
   const auth = useAuth();
@@ -63,7 +63,6 @@ const SignInPage = () => {
               <Card.Title>Sign in</Card.Title>
               <Form onSubmit={formik.handleSubmit}>
                 <FloatingLabel
-                  controlId="username"
                   label="Username"
                   className="mb-3"
                 >
@@ -75,6 +74,7 @@ const SignInPage = () => {
                     onBlur={formik.handleBlur}
                     isInvalid={authFailed || (formik.touched.username && formik.errors.username)}
                     onChange={formik.handleChange}
+                    name="username"
                     value={formik.values.username}
                   />
                   <Form.Control.Feedback
@@ -94,6 +94,7 @@ const SignInPage = () => {
                     type="password"
                     placeholder="Password"
                     required
+                    name="password"
                     onBlur={formik.handleBlur}
                     isInvalid={authFailed || (formik.touched.password && formik.errors.password)}
                     onChange={formik.handleChange}
