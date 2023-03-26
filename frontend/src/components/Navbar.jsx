@@ -1,20 +1,19 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   Container, Navbar, Button,
 } from 'react-bootstrap';
 
-import useAuth from '../hooks';
+import useAuth from '../hooks/authContext';
 import routes from '../routes';
 
 const AuthButton = () => {
-  const location = useLocation();
   const auth = useAuth();
 
   return (
     auth.signedIn
       ? <Button onClick={auth.signOut}>Log out</Button>
-      : <Button as={Link} to={routes.singInPage()} state={{ from: location }}>Sign in</Button>
+      : null
   );
 };
 
