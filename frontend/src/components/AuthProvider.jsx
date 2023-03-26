@@ -1,29 +1,19 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 /* eslint-disable functional/no-expression-statements */
 import React, { useState } from 'react';
-import AuthContext from '../contexts/index';
-
-const hasUserId = () => {
-  const user = localStorage.getItem('userId');
-
-  return !!(user);
-};
-
-const removeUserId = () => { localStorage.removeItem('userId'); };
-
-const setUserId = (data) => { localStorage.setItem('userId', JSON.stringify(data)); };
+import AuthContext from '../context/AuthContext';
+import localStorageTools from '../services/localStorageTools';
 
 const AuthProvider = ({ children }) => {
-  const [signedIn, setSignIn] = useState(hasUserId());
+  const [signedIn, setSignIn] = useState(localStorageTools.hasUserId());
 
   const signIn = (data) => {
-    setUserId(data);
+    localStorageTools.setUserId(data);
     setSignIn(true);
-    localStorage.getItem('userId');
   };
 
   const signOut = () => {
-    removeUserId();
+    localStorageTools.removeUserId();
     setSignIn(false);
   };
 
