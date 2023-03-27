@@ -4,13 +4,16 @@ import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-const NewMessageForm = () => {
+import useSocket from '../hooks/socketContext';
+
+const NewMessageForm = ({ username, currentChannelId }) => {
   // eslint-disable-next-line functional/no-expression-statements
   const inputRef = useRef();
+  const socket = useSocket();
 
   useEffect(() => {
     inputRef.current.focus();
-  }, []);
+  }, [currentChannelId]);
 
   const formik = useFormik({
     initialValues: { newMessage: '' },
@@ -21,7 +24,13 @@ const NewMessageForm = () => {
     }),
 
     onSubmit: (values) => {
+      const { newMessage } = values;
       formik.resetForm();
+      socket.sendMessage({
+        body: newMessage,
+        channelId: currentChannelId,
+        username,
+      });
       console.log(values);
     },
   });

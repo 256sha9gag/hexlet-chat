@@ -5,13 +5,15 @@ import { useSelector } from 'react-redux';
 
 import Messages from './Messages';
 import NewMessageForm from './NewMessageForm';
+import localStorageTools from '../services/localStorageTools';
 
-const Chat = () => {
-  const channels = useSelector((state) => Object.values(state.channelsReducer.entities));
-  const currentChannelId = useSelector(({ currentChannelIdReducer }) => currentChannelIdReducer
-    .currentChannelId);
-  const currentChannel = channels
+const Chat = ({ channels, currentChannelId }) => {
+  const { name } = channels
     .find(({ id }) => id === currentChannelId);
+  const currentMessagesCount = useSelector(({ messagesCountReducer }) => messagesCountReducer
+    .messagesCount);
+  const currentChannelName = ['#', name].join(' ');
+  const username = localStorageTools.getUsername();
 
   return (
     <Col className="p-0 h-100">
@@ -19,15 +21,22 @@ const Chat = () => {
         <div className="bg-light mb-4 p-3 shadow-sm border-bottom  small">
           <p className="m-0">
             <b>
-              {['#', currentChannel.name].join(' ')}
+              {currentChannelName}
             </b>
           </p>
-          <span className="text-muted m-0">0 сообщений</span>
+          <span className="text-muted m-0">
+            {currentMessagesCount}
+            {' '}
+            сообщений
+          </span>
         </div>
-        <div className="px-5 overflow-auto">
-          <Messages />
-        </div>
-        <NewMessageForm />
+        <Messages
+          currentChannelId={currentChannelId}
+        />
+        <NewMessageForm
+          username={username}
+          currentChannelId={currentChannelId}
+        />
       </div>
     </Col>
   );
