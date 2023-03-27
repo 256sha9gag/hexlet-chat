@@ -4,7 +4,7 @@ import {
   Container, Row,
 } from 'react-bootstrap';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import loadData from '../services/loader';
 import { actions as channelsActions } from '../store/slice/channelSlice';
@@ -31,21 +31,27 @@ const MainPage = () => {
         setIsLoading(false);
         throw new Error(`Error ${e}`);
       }
-      const data = await loadData();
-      const { channels, currentChannelId } = data;
-      dispatch(channelsActions.addChannels(channels));
-      dispatch(currentChannelIdActions.setCurrentChannelId(currentChannelId));
     };
 
     fetchData();
   }, [dispatch]);
 
+  const channels = useSelector((state) => Object.values(state.channelsReducer.entities));
+  const currentChannelId = useSelector(({ currentChannelIdReducer }) => currentChannelIdReducer
+    .currentChannelId);
+
   return (
     <Container className="h-100 my-5 overflow-hidden rounded">
       {isLoading ? (
         <Row className="h-100 bg-white">
-          <SideNavBar />
-          <Chat />
+          <SideNavBar
+            channels={channels}
+            currentChannelId={currentChannelId}
+          />
+          <Chat
+            channels={channels}
+            currentChannelId={currentChannelId}
+          />
         </Row>
       ) : (
         <LoadingSpinner />
