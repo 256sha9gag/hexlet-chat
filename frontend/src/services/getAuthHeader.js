@@ -1,12 +1,6 @@
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));
-  // eslint-disable-next-line functional/no-expression-statements
-  console.log(userId);
-  if (userId && userId.token) {
-    return { Authorization: `Bearer ${userId.token}` };
-  }
-
-  return {};
+  return (userId && userId.token) ? { Authorization: `Bearer ${userId.token}` } : {};
 };
 
 export default getAuthHeader;
