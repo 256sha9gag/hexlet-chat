@@ -20,7 +20,7 @@ const AuthButton = () => {
 const NavBar = () => (
   <Navbar expand="lg" variant="dark" bg="dark">
     <Container>
-      <Navbar.Brand as={Link} to={routes.mainPage()}>My Chat</Navbar.Brand>
+      <Navbar.Brand as={Link} to={routes.mainPage()}>Hexlet Chat</Navbar.Brand>
       <AuthButton />
     </Container>
   </Navbar>

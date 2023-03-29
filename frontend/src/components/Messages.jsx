@@ -1,3 +1,4 @@
+/* eslint-disable functional/no-conditional-statements */
 /* eslint-disable functional/no-expression-statements */
 import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,7 +15,9 @@ const Messages = ({ currentChannelId }) => {
   useEffect(() => {
     dispatch(messagesCountActions.setMessagesCount(channelMessagesCount));
     const messagesEnd = messagesEndRef.current;
-    messagesEnd.scrollIntoView({ block: 'end' });
+    if (messagesEnd) {
+      messagesEnd.scrollIntoView({ block: 'end' });
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentChannelId, channelMessagesCount]);
 
