@@ -1,5 +1,5 @@
 /* eslint-disable functional/no-expression-statements */
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
   Container, Row,
 } from 'react-bootstrap';
@@ -13,6 +13,9 @@ import { actions as messagesActions } from '../store/slice/messagesSlice';
 import Chat from '../components/Chat';
 import SideNavBar from '../components/SideNavBar';
 import LoadingSpinner from '../components/LoadingSpinner';
+import AddChannelModal from '../components/modals/AddChannelModal';
+import RemoveChannelModal from '../components/modals/RemoveChannelModal';
+import RenameChannelModal from '../components/modals/RenameChannelModal';
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -39,20 +42,34 @@ const MainPage = () => {
   const channels = useSelector((state) => Object.values(state.channelsReducer.entities));
   const currentChannelId = useSelector(({ currentChannelIdReducer }) => currentChannelIdReducer
     .currentChannelId);
+  const modal = useSelector(({ modalReducer }) => modalReducer.modalAction);
+  const channelsNames = channels.map((channel) => channel.name);
+
+  const modalActions = {
+    addChannel: <AddChannelModal channelsNames={channelsNames} />,
+    removeChannel: <RemoveChannelModal />,
+    renameChannel: <RenameChannelModal channelsNames={channelsNames} />,
+    disableShow: null,
+  };
+
+  const getModal = (action) => modalActions[action];
 
   return (
     <Container className="h-100 my-5 overflow-hidden rounded">
       {isLoading ? (
-        <Row className="h-100 bg-white">
-          <SideNavBar
-            channels={channels}
-            currentChannelId={currentChannelId}
-          />
-          <Chat
-            channels={channels}
-            currentChannelId={currentChannelId}
-          />
-        </Row>
+        <>
+          <Row className="h-100 bg-white">
+            <SideNavBar
+              channels={channels}
+              currentChannelId={currentChannelId}
+            />
+            <Chat
+              channels={channels}
+              currentChannelId={currentChannelId}
+            />
+          </Row>
+          {getModal(modal)}
+        </>
       ) : (
         <LoadingSpinner />
       )}

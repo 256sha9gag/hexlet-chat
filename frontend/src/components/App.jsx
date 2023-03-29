@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Provider } from 'react-redux';
 
 import MainPage from '../pages/MainPage';
@@ -9,7 +8,7 @@ import SignInPage from '../pages/SignInPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import NavBar from './Navbar';
 import AuthProvider from './AuthProvider';
-import SocketProvider from './SocketProvider';
+import SocketProvider from '../context/SocketProvider';
 import PrivateRoute from './ChatPrivateRoute';
 import store from '../store';
 import routes from '../routes.js';

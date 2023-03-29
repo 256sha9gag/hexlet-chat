@@ -24,11 +24,14 @@ const SignInPage = () => {
   const formik = useFormik({
     initialValues: { username: '', password: '' },
 
+    validateOnChange: false,
+    validateOnSubmit: true,
+
     validationSchema: Yup.object({
       username: Yup.string()
         .max(15, 'Must be 15 characters or less.')
         .min(3, 'Username is too short - should be 3 chars minimum.')
-        .required('Required.'),
+        .required('No username provided.'),
       password: Yup.string()
         .required('No password provided.')
         .min(5, 'Password is too short - should be 5 chars minimum.')
@@ -72,7 +75,7 @@ const SignInPage = () => {
                     placeholder="Username"
                     required
                     onBlur={formik.handleBlur}
-                    isInvalid={authFailed || (formik.touched.username && formik.errors.username)}
+                    isInvalid={authFailed || (formik.errors.username)}
                     onChange={formik.handleChange}
                     name="username"
                     value={formik.values.username}
@@ -81,7 +84,7 @@ const SignInPage = () => {
                     type="invalid"
                     className="text-danger"
                   >
-                    {authFailed || (formik.touched.username && formik.errors.username)}
+                    {authFailed || (formik.errors.username)}
 
                   </Form.Control.Feedback>
                 </FloatingLabel>
@@ -96,7 +99,7 @@ const SignInPage = () => {
                     required
                     name="password"
                     onBlur={formik.handleBlur}
-                    isInvalid={authFailed || (formik.touched.password && formik.errors.password)}
+                    isInvalid={authFailed || (formik.errors.password)}
                     onChange={formik.handleChange}
                     value={formik.values.password}
                   />
@@ -104,7 +107,7 @@ const SignInPage = () => {
                     type="invalid"
                     className="text-danger"
                   >
-                    {authFailed ? 'The username or password is incorrect.' : (formik.touched.username && formik.errors.username)}
+                    {authFailed ? 'The username or password is incorrect.' : (formik.errors.password)}
                   </Form.Control.Feedback>
                 </FloatingLabel>
                 <Button type="submit" disabled={formik.isSubmitting}>Sign in</Button>
