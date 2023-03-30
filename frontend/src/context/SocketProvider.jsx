@@ -15,13 +15,29 @@ const socket = io();
 const SocketProvider = ({ children }) => {
   const dispatch = useDispatch();
 
+  socket.on('newChannel', (payload) => {
+    dispatch(channelActions.addChannel(payload));
+    dispatch(currentChannelIdActions.setCurrentChannelId(payload.id));
+  });
+
+  socket.on('removeChannel', (payload) => {
+    dispatch(channelActions
+      .removeChannel(payload.id));
+  });
+
+  socket.on('renameChannel', (payload) => {
+    dispatch(channelActions
+      .updateChannel({ id: payload.id, changes: { name: payload.name } }));
+  });
+
+  socket.on('newMessage', (payload) => {
+    dispatch(messagesActions.addMessage(payload));
+  });
+
   const addChannel = (channelName) => {
     socket.emit('newChannel', { name: channelName }, (response) => {
       if (response.status === 'ok') {
-        socket.on('newChannel', (payload) => {
-          dispatch(channelActions.addChannel(payload));
-          dispatch(currentChannelIdActions.setCurrentChannelId(payload.id));
-        });
+        console.log(response.status);
       }
     });
   };
@@ -29,10 +45,7 @@ const SocketProvider = ({ children }) => {
   const removeChannel = (removeChannelId) => {
     socket.emit('removeChannel', removeChannelId, (response) => {
       if (response.status === 'ok') {
-        socket.on('removeChannel', (payload) => {
-          dispatch(channelActions
-            .removeChannel(payload.id));
-        });
+        console.log(response.status);
       }
     });
   };
@@ -40,10 +53,7 @@ const SocketProvider = ({ children }) => {
   const renameChannel = (renamedChannel) => {
     socket.emit('renameChannel', renamedChannel, (response) => {
       if (response.status === 'ok') {
-        socket.on('renameChannel', (payload) => {
-          dispatch(channelActions
-            .updateChannel({ id: payload.id, changes: { name: payload.name } }));
-        });
+        console.log(response.status);
       }
     });
   };
@@ -51,9 +61,7 @@ const SocketProvider = ({ children }) => {
   const sendMessage = (msg) => {
     socket.emit('newMessage', msg, (response) => {
       if (response.status === 'ok') {
-        socket.on('newMessage', (payload) => {
-          dispatch(messagesActions.addMessage(payload));
-        });
+        console.log(response.status);
       }
     });
   };
