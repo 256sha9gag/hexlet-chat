@@ -10,7 +10,7 @@ const Messages = ({ currentChannelId }) => {
   const messages = useSelector((state) => Object.values(state.messagesReducer.entities));
   const currentChannelMessages = messages.filter(({ channelId }) => channelId === currentChannelId);
   const channelMessagesCount = currentChannelMessages.length;
-  const messagesEndRef = useRef(null);
+  const messagesEndRef = useRef();
 
   useEffect(() => {
     dispatch(messagesCountActions.setMessagesCount(channelMessagesCount));

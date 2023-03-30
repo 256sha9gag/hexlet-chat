@@ -1,5 +1,5 @@
 /* eslint-disable functional/no-expression-statements */
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
@@ -11,7 +11,12 @@ import useSocket from '../../hooks/socketContext';
 const AddChannelModal = ({ channelsNames }) => {
   const socket = useSocket();
   const dispatch = useDispatch();
+  const inputRef = useRef(null);
   const handleClose = () => dispatch(modalAction.setModalAction('disableShow'));
+
+  useEffect(() => {
+    inputRef.current.focus();
+  });
 
   const formik = useFormik({
     initialValues: { newChannel: '' },
@@ -26,6 +31,7 @@ const AddChannelModal = ({ channelsNames }) => {
         .required('Required field.')
         .notOneOf(channelsNames, 'Must be unique'),
     }),
+
     onSubmit: (values) => {
       formik.setSubmitting(false);
       socket.addChannel(values.newChannel);
@@ -49,7 +55,7 @@ const AddChannelModal = ({ channelsNames }) => {
               onBlur={formik.handleBlur}
               value={formik.values.newChannel}
               isInvalid={formik.errors.newChannel}
-              autoFocus
+              ref={inputRef}
             />
             <Form.Control.Feedback
               type="invalid"
