@@ -9,5 +9,5 @@ export default {
   mainPage: () => '/',
   usersPath: () => [apiPath, 'data'].join('/'),
   signUpPath: () => [apiPath, 'signup'].join('/'),
-  signUpPage: () => [apiPath, 'signup'].join('/'),
+  signUpPage: () => [root, 'signup'].join('/'),
 };

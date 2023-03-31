@@ -1,4 +1,3 @@
-/* eslint-disable functional/no-expression-statements */
 import React, { Fragment, useEffect, useState } from 'react';
 import {
   Container, Row,
@@ -6,12 +5,12 @@ import {
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useDispatch, useSelector } from 'react-redux';
 
-import loadData from '../services/loader';
+import { getData } from '../services/loaders';
 import { actions as channelsActions } from '../store/slice/channelSlice';
 import { actions as currentChannelIdActions } from '../store/slice/currentChannelIdSlice';
 import { actions as messagesActions } from '../store/slice/messagesSlice';
 import Chat from '../components/Chat';
-import SideNavBar from '../components/SideNavBar';
+import SideNavbar from '../components/SideNavbar';
 import LoadingSpinner from '../components/LoadingSpinner';
 import AddChannelModal from '../components/modals/AddChannelModal';
 import RemoveChannelModal from '../components/modals/RemoveChannelModal';
@@ -24,7 +23,7 @@ const MainPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await loadData();
+        const data = await getData();
         const { channels, currentChannelId, messages } = data;
         dispatch(channelsActions.addChannels(channels));
         dispatch(currentChannelIdActions.setCurrentChannelId(currentChannelId));
@@ -37,7 +36,8 @@ const MainPage = () => {
     };
 
     fetchData();
-  }, [dispatch]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const channels = useSelector((state) => Object.values(state.channelsReducer.entities));
   const currentChannelId = useSelector(({ currentChannelIdReducer }) => currentChannelIdReducer
@@ -59,7 +59,7 @@ const MainPage = () => {
       {isLoading ? (
         <>
           <Row className="h-100 bg-white">
-            <SideNavBar
+            <SideNavbar
               channels={channels}
               currentChannelId={currentChannelId}
             />

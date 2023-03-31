@@ -1,4 +1,3 @@
-/* eslint-disable functional/no-expression-statements */
 import React, { useRef, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';

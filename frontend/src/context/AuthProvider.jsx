@@ -1,10 +1,11 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-/* eslint-disable functional/no-expression-statements */
-import React, { useState } from 'react';
-import AuthContext from '../context/AuthContext';
+import React, { useState, createContext } from 'react';
 import localStorageTools from '../services/localStorageTools';
 
+export const AuthContext = createContext({});
+
 const AuthProvider = ({ children }) => {
+  console.log(children, 'auth');
   const [signedIn, setSignIn] = useState(localStorageTools.hasUserId());
 
   const signIn = (data) => {

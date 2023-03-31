@@ -1,8 +1,5 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-/* eslint-disable functional/no-conditional-statements */
-/* eslint-disable functional/no-expression-statements */
 import { createContext } from 'react';
-import { io } from 'socket.io-client';
 import { useDispatch } from 'react-redux';
 
 import { actions as messagesActions } from '../store/slice/messagesSlice';
@@ -10,9 +7,9 @@ import { actions as channelActions } from '../store/slice/channelSlice';
 import { actions as currentChannelIdActions } from '../store/slice/currentChannelIdSlice';
 
 export const SocketContext = createContext({});
-const socket = io();
 
-const SocketProvider = ({ children }) => {
+const SocketProvider = ({ children, socket }) => {
+  console.log(socket, 'socket');
   const dispatch = useDispatch();
 
   socket.on('newChannel', (payload) => {

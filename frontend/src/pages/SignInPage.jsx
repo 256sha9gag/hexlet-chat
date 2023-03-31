@@ -1,12 +1,11 @@
-/* eslint-disable functional/no-expression-statements */
 import React, { useRef, useEffect, useState } from 'react';
 import {
-  Form, FloatingLabel, Card, Button,
+  Form, FloatingLabel, Card, Button, Container, Col, Row,
 } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
 
 import routes from '../routes';
 import useAuth from '../hooks/authContext';
@@ -29,24 +28,22 @@ const SignInPage = () => {
 
     validationSchema: Yup.object({
       username: Yup.string()
-        .max(15, 'Must be 15 characters or less.')
-        .min(3, 'Username is too short - should be 3 chars minimum.')
+        .max(20, 'Username from 3 to 20 characters.')
+        .min(3, 'Username from 3 to 20 characters.')
         .required('No username provided.'),
       password: Yup.string()
         .required('No password provided.')
-        .min(5, 'Password is too short - should be 5 chars minimum.')
-        .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.'),
+        .min(5, 'Password is too short - should be 5 chars minimum.'),
     }),
 
     onSubmit: async (values) => {
       setAuthFailed(false);
-
       try {
-        const res = await axios.post(routes.singInPath(), values);
-        auth.signIn(res.data);
+        const response = await axios.post(routes.singInPath(), values);
+        auth.signIn(response.data);
         navigate({ pathname: routes.mainPage() });
       } catch (err) {
-        formik.setSubmitting(false);
+        formik.setSubmitting(true);
         if (err.isAxiosError && err.response.status === 401) {
           setAuthFailed(true);
           inputRef.current.select();
@@ -58,12 +55,12 @@ const SignInPage = () => {
   });
 
   return (
-    <div className="container-fluid bg-secondary h-100">
-      <div className="row justify-content-center align-content-center h-100">
-        <div className="col-8 col-md-6 col-xxl-4 mb-5">
+    <Container className="container-fluid bg-secondary h-100">
+      <Row className="row justify-content-center align-content-center h-100">
+        <Col className="col-8 col-md-6 col-xxl-4 mb-5">
           <Card className="text-center pt-3 mb-5">
             <Card.Body>
-              <Card.Title>Sign in</Card.Title>
+              <Card.Title as="h1" className="mb-4">Sign in</Card.Title>
               <Form onSubmit={formik.handleSubmit}>
                 <FloatingLabel
                   label="Username"
@@ -74,19 +71,11 @@ const SignInPage = () => {
                     ref={inputRef}
                     placeholder="Username"
                     required
-                    onBlur={formik.handleBlur}
                     isInvalid={authFailed || (formik.errors.username)}
                     onChange={formik.handleChange}
                     name="username"
                     value={formik.values.username}
                   />
-                  <Form.Control.Feedback
-                    type="invalid"
-                    className="text-danger"
-                  >
-                    {authFailed || (formik.errors.username)}
-
-                  </Form.Control.Feedback>
                 </FloatingLabel>
                 <FloatingLabel
                   controlId="password"
@@ -98,7 +87,6 @@ const SignInPage = () => {
                     placeholder="Password"
                     required
                     name="password"
-                    onBlur={formik.handleBlur}
                     isInvalid={authFailed || (formik.errors.password)}
                     onChange={formik.handleChange}
                     value={formik.values.password}
@@ -107,7 +95,7 @@ const SignInPage = () => {
                     type="invalid"
                     className="text-danger"
                   >
-                    {authFailed ? 'The username or password is incorrect.' : (formik.errors.password)}
+                    {authFailed || (formik.errors.password || formik.errors.username) ? 'The username or password is incorrect.' : null}
                   </Form.Control.Feedback>
                 </FloatingLabel>
                 <Button type="submit" disabled={formik.isSubmitting}>Sign in</Button>
@@ -119,9 +107,9 @@ const SignInPage = () => {
               <a href={routes.signUpPage()}> Sign up</a>
             </Card.Footer>
           </Card>
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
