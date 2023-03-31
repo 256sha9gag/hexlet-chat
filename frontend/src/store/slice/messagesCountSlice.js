@@ -7,7 +7,7 @@ const messagesCountSlice = createSlice({
   },
   reducers: {
     setMessagesCount: (state, { payload }) => {
-      // eslint-disable-next-line functional/no-expression-statements, no-param-reassign
+      // eslint-disable-next-line no-param-reassign
       state.messagesCount = payload;
     },
   },
