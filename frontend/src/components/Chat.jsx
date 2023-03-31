@@ -1,4 +1,3 @@
-/* eslint-disable functional/no-expression-statements */
 import React from 'react';
 import { Col } from 'react-bootstrap';
 import { useSelector } from 'react-redux';

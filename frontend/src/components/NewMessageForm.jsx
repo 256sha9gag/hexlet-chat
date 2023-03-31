@@ -1,4 +1,3 @@
-/* eslint-disable functional/no-expression-statements */
 import React, { useRef, useEffect } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useFormik } from 'formik';
@@ -7,7 +6,6 @@ import * as Yup from 'yup';
 import useSocket from '../hooks/socketContext';
 
 const NewMessageForm = ({ username, currentChannelId }) => {
-  // eslint-disable-next-line functional/no-expression-statements
   const inputRef = useRef();
   const socket = useSocket();
 
