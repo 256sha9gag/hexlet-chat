@@ -14,7 +14,7 @@ import { actions as channelsActions } from '../store/slice/channelSlice';
 import { actions as currentChannelIdActions } from '../store/slice/currentChannelIdSlice';
 import { actions as messagesActions } from '../store/slice/messagesSlice';
 import Chat from '../components/Chat';
-import SideNavbar from './src/components/SideNavbar';
+import SideNavBar from './src/components/SideNavbar';
 import LoadingSpinner from '../components/LoadingSpinner';
 import AddChannelModal from '../components/modals/AddChannelModal';
 import RemoveChannelModal from '../components/modals/RemoveChannelModal';
@@ -67,7 +67,7 @@ const MainPage = () => {
       {isLoading ? (
         <>
           <Row className="h-100 bg-white">
-            <SideNavbar
+            <SideNavBar
               channels={channels}
               currentChannelId={currentChannelId}
             />

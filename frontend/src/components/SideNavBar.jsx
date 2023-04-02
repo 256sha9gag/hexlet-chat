@@ -80,7 +80,7 @@ const RenderChannels = (channel, currentId, dispatch, translate) => {
   );
 };
 
-const SideNavbar = ({ channels, currentChannelId }) => {
+const SideNavBar = ({ channels, currentChannelId }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const handleModalAddChannel = () => {
@@ -119,4 +119,4 @@ const SideNavbar = ({ channels, currentChannelId }) => {
   );
 };
 
-export default SideNavbar;
+export default SideNavBar;
