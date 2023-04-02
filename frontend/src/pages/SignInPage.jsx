@@ -75,11 +75,12 @@ const SignInPage = () => {
                 <FloatingLabel
                   label={t('signIn.usernameLabel')}
                   className="mb-3"
+                  controlId="username"
                 >
                   <Form.Control
                     type="username"
                     ref={inputRef}
-                    placeholder="t('signIn.usernameLabel')"
+                    placeholder={t('signIn.usernameLabel')}
                     required
                     isInvalid={isAuth || (formik.errors.username)}
                     onChange={formik.handleChange}
