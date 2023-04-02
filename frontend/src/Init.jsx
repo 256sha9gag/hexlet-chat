@@ -31,6 +31,11 @@ const Init = () => {
     environment: 'production',
   };
 
+  function TestError() {
+    const a = null;
+    return a.hello();
+  }
+
   return (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
@@ -39,6 +44,7 @@ const Init = () => {
             <SocketProvider socket={socket}>
               <AuthProvider>
                 <App />
+                <TestError />
               </AuthProvider>
             </SocketProvider>
           </I18nextProvider>
