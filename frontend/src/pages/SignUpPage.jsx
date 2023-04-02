@@ -76,11 +76,12 @@ const SignUpPage = () => {
                 <FloatingLabel
                   label={t('signUp.usernameLabel')}
                   className="mb-3"
+                  controlId="username"
                 >
                   <Form.Control
-                    type={t('signUp.usernameLabel')}
+                    type="username"
                     ref={inputRef}
-                    placeholder="Username"
+                    placeholder={t('signUp.usernameLabel')}
                     required
                     isInvalid={isAuth || (formik.errors.username)}
                     onChange={formik.handleChange}
