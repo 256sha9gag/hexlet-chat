@@ -33,11 +33,6 @@ const Init = () => {
 
   console.log(process.env.ROLLBAR_ACCSESS_TOKEN_PROD);
 
-  function TestError() {
-    const a = null;
-    return a.hello();
-  }
-
   return (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
@@ -46,7 +41,6 @@ const Init = () => {
             <SocketProvider socket={socket}>
               <AuthProvider>
                 <App />
-                <TestError />
               </AuthProvider>
             </SocketProvider>
           </I18nextProvider>
