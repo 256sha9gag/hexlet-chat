@@ -16,10 +16,10 @@ const Header = () => {
     <Navbar expand="lg" variant="dark" bg="dark">
       <Container>
         <Navbar.Brand as={Link} to={routes.mainPage()}>{t('header.logo')}</Navbar.Brand>
-        {auth.signedIn
-          ? <Button onClick={auth.signOut}>{t('header.signOutButton')}</Button>
-          : null}
       </Container>
+      {auth.signedIn
+        ? <Button onClick={auth.signOut}>{t('header.signOutButton')}</Button>
+        : null}
     </Navbar>
   );
 };
