@@ -13,8 +13,8 @@ import routes from '../routes';
 import { actions as channelsActions } from '../store/slice/channelSlice';
 import { actions as currentChannelIdActions } from '../store/slice/currentChannelIdSlice';
 import { actions as messagesActions } from '../store/slice/messagesSlice';
+import SideBar from '../components/SideBar';
 import Chat from '../components/Chat';
-import SideNavBar from './src/components/SideNavBar';
 import LoadingSpinner from '../components/LoadingSpinner';
 import AddChannelModal from '../components/modals/AddChannelModal';
 import RemoveChannelModal from '../components/modals/RemoveChannelModal';
@@ -67,7 +67,7 @@ const MainPage = () => {
       {isLoading ? (
         <>
           <Row className="h-100 bg-white">
-            <SideNavBar
+            <SideBar
               channels={channels}
               currentChannelId={currentChannelId}
             />
