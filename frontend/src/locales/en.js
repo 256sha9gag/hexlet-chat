@@ -52,6 +52,7 @@ export default {
     },
     modal: {
       add: 'Add Channel',
+      formLabel: 'Name channel',
       sendButton: 'Send',
       cancelButton: 'Cancel',
       removeTitle: 'Remove Channel',

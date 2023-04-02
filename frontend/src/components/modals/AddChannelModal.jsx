@@ -50,11 +50,12 @@ const AddChannelModal = ({ channelsNames }) => {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          <Form.Group className="mb-3" label={t('modal.add')} controlId="addChannel">
+          <Form.Group className="mb-3" label={t('modal.formLabel')} controlId="addChannel">
             <Form.Control
-              name="newChannel"
+              name="addChannel"
               onChange={formik.handleChange}
               type="text"
+              placeholder={t('modal.formLabel')}
               onBlur={formik.handleBlur}
               value={formik.values.newChannel}
               isInvalid={formik.errors.newChannel}
