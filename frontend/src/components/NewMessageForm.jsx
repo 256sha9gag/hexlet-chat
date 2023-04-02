@@ -45,7 +45,7 @@ const NewMessageForm = ({ username, currentChannelId }) => {
             className="border-0 p-0 ps-2"
             placeholder={t('newMessageForm.inputLabel')}
             name="newMessage"
-            aria-label="New message"
+            aria-label={t('newMessageForm.inputLabel')}
             ref={inputRef}
             isInvalid={formik.errors.newMessage}
             value={formik.values.newMessage}
