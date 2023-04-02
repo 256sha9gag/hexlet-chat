@@ -1,16 +1,22 @@
 import React, { useRef, useEffect, useState } from 'react';
 import {
-  Form, FloatingLabel, Card, Button, Container, Row, Col,
+  Form, FloatingLabel, Card, Button, Container, Row, Col, Image,
 } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { useRollbar } from '@rollbar/react';
 
 import routes from '../routes';
 import useAuth from '../hooks/authContext';
+import signUpImg from '../assets/signUpImg.jpg';
 
 const SignUpPage = () => {
+  const rollbar = useRollbar();
+  const { t } = useTranslation();
   const auth = useAuth();
   const inputRef = useRef();
   const navigate = useNavigate();
@@ -25,20 +31,19 @@ const SignUpPage = () => {
 
     validationSchema: Yup.object({
       username: Yup.string()
-        .max(20, 'Username from 3 to 20 characters.')
-        .min(3, 'Username from 3 to 20 characters.')
-        .required('No username provided.'),
+        .max(20, t('errors.textLength'))
+        .min(3, t('errors.textLength'))
+        .required(t('errors.required')),
       password: Yup.string()
-        .required('No password provided.')
-        .min(6, 'Password is too short - should be 6 chars minimum.'),
+        .required(t('errors.required'))
+        .min(6, t('errors.passLength')),
       passwordConfirmation: Yup.string()
-        .required('No password provided.')
-        .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+        .required(t('errors.required'))
+        .oneOf([Yup.ref('password'), null], t('errors.passConfirmation')),
     }),
 
     onSubmit: async (values) => {
       try {
-        console.log(values);
         const response = await axios.post(routes.signUpPath(), values);
         auth.signIn(response.data);
         navigate({ pathname: routes.mainPage() });
@@ -49,6 +54,8 @@ const SignUpPage = () => {
           inputRef.current.select();
           return;
         }
+        rollbar.error(t('rollbar.creatUser'), err);
+        toast.error(t('toast.error'));
         throw err;
       }
     },
@@ -56,18 +63,19 @@ const SignUpPage = () => {
 
   return (
     <Container fluid className="bg-secondary h-100">
-      <Row className="row justify-content-center align-content-center h-100">
-        <Col className="col-8 col-md-6 col-xxl-4 mb-5">
-          <Card className="text-center pt-3 mb-5">
-            <Card.Body>
-              <Card.Title as="h1" className="mb-4">Sign up</Card.Title>
-              <Form onSubmit={formik.handleSubmit}>
+      <Row className="justify-content-center align-content-center h-100">
+        <Col md={8} xxl={6} xs={12}>
+          <Card>
+            <Card.Body className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
+              <Image src={signUpImg} roundedCircle alt={t('signUp.title')} />
+              <Form className="w-50" onSubmit={formik.handleSubmit}>
+                <Card.Title as="h1" className="text-center mb-4">{t('signUp.title')}</Card.Title>
                 <FloatingLabel
-                  label="Username"
+                  label={t('signUp.usernameLabel')}
                   className="mb-3"
                 >
                   <Form.Control
-                    type="username"
+                    type={t('signUp.usernameLabel')}
                     ref={inputRef}
                     placeholder="Username"
                     required
@@ -85,12 +93,12 @@ const SignUpPage = () => {
                 </FloatingLabel>
                 <FloatingLabel
                   controlId="password"
-                  label="Password"
+                  label={t('signUp.passwordLabel')}
                   className="mb-3"
                 >
                   <Form.Control
                     type="password"
-                    placeholder="Password"
+                    placeholder={t('signUp.passwordLabel')}
                     required
                     name="password"
                     isInvalid={isAuth || (formik.errors.password && formik.touched.password)}
@@ -106,12 +114,12 @@ const SignUpPage = () => {
                 </FloatingLabel>
                 <FloatingLabel
                   controlId="passwordConfirmation"
-                  label="Password Confirmation"
+                  label={t('signUp.passwordConfirmationLabel')}
                   className="mb-3"
                 >
                   <Form.Control
                     type="password"
-                    placeholder="Password Confirmation"
+                    placeholder={t('signUp.passwordConfirmationLabel')}
                     required
                     name="passwordConfirmation"
                     onBlur={formik.handleBlur}
@@ -125,10 +133,10 @@ const SignUpPage = () => {
                     type="invalid"
                     className="text-danger"
                   >
-                    {isAuth ? 'Такой пользователь уже существует' : formik.errors.passwordConfirmation}
+                    {isAuth ? t('errors.signUpFail') : formik.errors.passwordConfirmation}
                   </Form.Control.Feedback>
                 </FloatingLabel>
-                <Button type="submit" disabled={formik.isSubmitting}>Sign up</Button>
+                <Button className="w-100 mb-3" variant="outline-primary" type="submit" disabled={formik.isSubmitting}>{t('signUp.button')}</Button>
               </Form>
             </Card.Body>
           </Card>

@@ -3,12 +3,16 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import filter from 'leo-profanity';
 
 import { actions as modalAction } from '../../store/slice/modalSlice';
 import useSocket from '../../hooks/socketContext';
 
 const RenameChannelModal = ({ channelsNames }) => {
   const socket = useSocket();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const handleClose = () => dispatch(modalAction.setModalAction('disableShow'));
 
@@ -27,18 +31,17 @@ const RenameChannelModal = ({ channelsNames }) => {
 
     validationSchema: Yup.object({
       renameChannel: Yup.string()
-        .max(20, 'Must be 20 characters or less.')
-        .min(3, 'Username is too short - should be 3 chars minimum.')
-        .required('Required field.')
-        .notOneOf(channelsNames, 'Must be unique'),
+        .max(20, t('errors.textLength'))
+        .min(3, t('errors.textLength'))
+        .required(t('errors.required'))
+        .notOneOf(channelsNames, t('errors.notOneOf')),
     }),
     onSubmit: (values) => {
       formik.setSubmitting(false);
       socket.renameChannel({
         id: selectedChannelId,
-        name: values.renameChannel,
+        name: filter.clean(values.renameChannel),
       });
-      console.log(values);
       handleClose();
     },
   });
@@ -46,11 +49,11 @@ const RenameChannelModal = ({ channelsNames }) => {
   return (
     <Modal show="true" onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Rename Channel</Modal.Title>
+        <Modal.Title>{t('modal.rename')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          <Form.Group className="mb-3" controlId="renameChannel">
+          <Form.Group className="mb-3" label={t('modal.rename')} controlId="renameChannel">
             <Form.Control
               name="renameChannel"
               onChange={formik.handleChange}
@@ -71,7 +74,7 @@ const RenameChannelModal = ({ channelsNames }) => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          Сancel
+          {t('modal.cancelButton')}
         </Button>
         <Button
           variant="primary"
@@ -79,7 +82,7 @@ const RenameChannelModal = ({ channelsNames }) => {
           onClick={formik.handleSubmit}
           disabled={formik.isSubmitting}
         >
-          Send
+          {t('modal.removeButton')}
         </Button>
       </Modal.Footer>
     </Modal>

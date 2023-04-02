@@ -22,3 +22,5 @@ jobs:
         run: make install
       - name: Run linter
         run: make lint-frontend
+        env: 
+          ROLLBAR_TOKEN: ${{secret.ROLLBAR_ACCSESS_TOKEN_PROD}}

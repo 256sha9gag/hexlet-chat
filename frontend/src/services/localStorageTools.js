@@ -1,4 +1,4 @@
-const localStorageTools = {
+export default {
   hasUserId: () => {
     const user = localStorage.getItem('userId');
     return !!(user);
@@ -8,5 +8,3 @@ const localStorageTools = {
   getUser: () => localStorage.getItem('userId'),
   getUsername: () => JSON.parse(localStorage.getItem('userId')).username,
 };
-
-export default localStorageTools;

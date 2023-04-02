@@ -3,10 +3,12 @@ import {
   Col, Button, Dropdown, ButtonGroup,
 } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+
 import { actions as currentChannelIdActions } from '../store/slice/currentChannelIdSlice';
 import { actions as modalAction } from '../store/slice/modalSlice';
 
-const RenderChannels = (channel, currentId, dispatch) => {
+const RenderChannels = (channel, currentId, dispatch, translate) => {
   const { name, removable, id } = channel;
   const activeButton = id === currentId ? 'secondary' : null;
 
@@ -62,13 +64,13 @@ const RenderChannels = (channel, currentId, dispatch) => {
                 eventKey="1"
                 onClick={() => handleModalDeleteChannel(id)}
               >
-                Delete
+                {translate('sideNavbar.remove')}
               </Dropdown.Item>
               <Dropdown.Item
                 eventKey="2"
                 onClick={() => handleModalRenameChannel(id)}
               >
-                Rename
+                {translate('sideNavbar.rename')}
 
               </Dropdown.Item>
             </Dropdown.Menu>
@@ -78,7 +80,8 @@ const RenderChannels = (channel, currentId, dispatch) => {
   );
 };
 
-const SideNavBar = ({ channels, currentChannelId }) => {
+const SideNavbar = ({ channels, currentChannelId }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const handleModalAddChannel = () => {
     dispatch(modalAction.setModalAction('addChannel'));
@@ -87,7 +90,7 @@ const SideNavBar = ({ channels, currentChannelId }) => {
   return (
     <Col className="col-4 col-md-2 border-end d-flex flex-column p-0 bg-light h-100">
       <div className="d-flex ps-4 pe-4 my-4 justify-content-between">
-        <b>Channels</b>
+        <b>{t('sideNavbar.channels')}</b>
         <Button
           variant=""
           onClick={handleModalAddChannel}
@@ -108,11 +111,12 @@ const SideNavBar = ({ channels, currentChannelId }) => {
       </div>
       <ul className="flex-column nav nav-pills nav-fill d-block h-100 overflow-auto px-2 mb-3">
         {
-          channels && channels.map((channel) => RenderChannels(channel, currentChannelId, dispatch))
+          channels
+          && channels.map((channel) => RenderChannels(channel, currentChannelId, dispatch, t))
         }
       </ul>
     </Col>
   );
 };
 
-export default SideNavBar;
+export default SideNavbar;

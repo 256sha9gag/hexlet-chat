@@ -5,7 +5,6 @@ import localStorageTools from '../services/localStorageTools';
 export const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
-  console.log(children, 'auth');
   const [signedIn, setSignIn] = useState(localStorageTools.hasUserId());
 
   const signIn = (data) => {

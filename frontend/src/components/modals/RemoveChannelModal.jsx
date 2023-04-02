@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import { actions as modalAction } from '../../store/slice/modalSlice';
 import useSocket from '../../hooks/socketContext';
 
 const RemoveChannelModal = () => {
+  const { t } = useTranslation();
   const submitButton = useRef(null);
   useEffect(() => {
     submitButton.current.focus();
@@ -15,7 +17,6 @@ const RemoveChannelModal = () => {
   const dispatch = useDispatch();
   const handleClose = () => dispatch(modalAction.setModalAction('disableShow'));
   const handleSubmit = (id) => (e) => {
-    console.log('wow');
     e.preventDefault();
     setIsDisable(true);
     socket.removeChannel({ id });
@@ -27,16 +28,16 @@ const RemoveChannelModal = () => {
   return (
     <Modal show="true" onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Remove Channel</Modal.Title>
+        <Modal.Title>{t('modal.removeTitle')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <p className="lead">
-          Are you sure?
+          {t('modal.removeBody')}
         </p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          Сancel
+          {t('modal.cancelButton')}
         </Button>
         <Button
           ref={submitButton}
@@ -45,7 +46,7 @@ const RemoveChannelModal = () => {
           onClick={handleSubmit(selectedChannelId)}
           disabled={isDisable}
         >
-          Remove
+          {t('modal.removeButton')}
         </Button>
       </Modal.Footer>
     </Modal>

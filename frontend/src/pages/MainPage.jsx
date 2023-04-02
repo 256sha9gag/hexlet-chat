@@ -1,37 +1,45 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container, Row,
 } from 'react-bootstrap';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import { useRollbar } from '@rollbar/react';
 
-import { getData } from '../services/loaders';
+import getAuthHeader from '../services/getAuthHeader';
+import routes from '../routes';
 import { actions as channelsActions } from '../store/slice/channelSlice';
 import { actions as currentChannelIdActions } from '../store/slice/currentChannelIdSlice';
 import { actions as messagesActions } from '../store/slice/messagesSlice';
 import Chat from '../components/Chat';
-import SideNavBar from '../components/SideNavBar';
+import SideNavbar from '../components/SideNavbar';
 import LoadingSpinner from '../components/LoadingSpinner';
 import AddChannelModal from '../components/modals/AddChannelModal';
 import RemoveChannelModal from '../components/modals/RemoveChannelModal';
 import RenameChannelModal from '../components/modals/RenameChannelModal';
 
 const MainPage = () => {
+  const rollbar = useRollbar();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getData();
-        const { channels, currentChannelId, messages } = data;
+        const response = await axios.get(routes.usersPath(), { headers: getAuthHeader() });
+        const { channels, currentChannelId, messages } = response.data;
         dispatch(channelsActions.addChannels(channels));
         dispatch(currentChannelIdActions.setCurrentChannelId(currentChannelId));
         dispatch(messagesActions.addMessages(messages));
         setIsLoading(true);
       } catch (e) {
         setIsLoading(false);
-        throw new Error(`Error ${e}`);
+        rollbar.error(t('rollbar.getData'), e);
+        toast.error(t('toast.error'));
+        throw e;
       }
     };
 
@@ -59,7 +67,7 @@ const MainPage = () => {
       {isLoading ? (
         <>
           <Row className="h-100 bg-white">
-            <SideNavBar
+            <SideNavbar
               channels={channels}
               currentChannelId={currentChannelId}
             />
