@@ -29,6 +29,9 @@ const SignUpPage = () => {
   const formik = useFormik({
     initialValues: { username: '', password: '', passwordConfirmation: '' },
 
+    validateOnChange: true,
+    validateOnBlur: true,
+
     validationSchema: Yup.object({
       username: Yup.string()
         .max(20, t('errors.textLength'))
@@ -79,7 +82,7 @@ const SignUpPage = () => {
                     ref={inputRef}
                     placeholder="Username"
                     required
-                    isInvalid={isAuth || (formik.errors.username && formik.touched.username)}
+                    isInvalid={isAuth || (formik.errors.username)}
                     onChange={formik.handleChange}
                     name="username"
                     value={formik.values.username}
@@ -101,7 +104,7 @@ const SignUpPage = () => {
                     placeholder={t('signUp.passwordLabel')}
                     required
                     name="password"
-                    isInvalid={isAuth || (formik.errors.password && formik.touched.password)}
+                    isInvalid={isAuth || (formik.errors.password)}
                     onChange={formik.handleChange}
                     value={formik.values.password}
                   />
@@ -124,8 +127,7 @@ const SignUpPage = () => {
                     name="passwordConfirmation"
                     onBlur={formik.handleBlur}
                     isInvalid={isAuth
-                      || (formik.errors.passwordConfirmation
-                        && formik.touched.passwordConfirmation)}
+                      || (formik.errors.passwordConfirmation)}
                     onChange={formik.handleChange}
                     value={formik.values.passwordConfirmation}
                   />
