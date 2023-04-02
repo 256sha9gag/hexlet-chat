@@ -33,6 +33,7 @@ export default {
     },
     newMessageForm: {
       inputLabel: 'Введите сообщение...',
+      ariaLabel: 'Новое сообщение',
       button: 'Отправить',
     },
     sideNavbar: {

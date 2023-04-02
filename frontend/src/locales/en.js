@@ -32,6 +32,7 @@ export default {
     },
     newMessageForm: {
       inputLabel: 'Enter a message...',
+      ariaLabel: 'New message',
       button: 'Send',
     },
     sideNavbar: {
