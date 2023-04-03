@@ -51,7 +51,7 @@ const AddChannelModal = ({ channelsNames }) => {
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="mb-3" controlId="name">
-            <Form.Label>{t('modal.rename')}</Form.Label>
+            <Form.Label className="visually-hidden">{t('modal.formLabel')}</Form.Label>
             <Form.Control
               name="name"
               id="name"
