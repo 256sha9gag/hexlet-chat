@@ -27,7 +27,7 @@ const Init = () => {
   filter.add(filter.getDictionary('ru'));
 
   const rollbarConfig = {
-    accessToken: '9f21e3e122ce48efad88cd1804974800',
+    accessToken: process.env.ROLLBAR_ACCSESS_TOKEN_PROD,
     environment: 'testenv',
   };
 
