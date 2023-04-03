@@ -37,6 +37,7 @@ export default {
     },
     sideNavbar: {
       channels: 'Channels',
+      control: 'Channel management',
       remove: 'Remove',
       rename: 'Rename',
     },

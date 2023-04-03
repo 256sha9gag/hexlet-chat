@@ -38,6 +38,7 @@ export default {
     },
     sideNavbar: {
       channels: 'Каналы',
+      control: 'Управление каналом',
       remove: 'Удалить',
       rename: 'Переименовать',
     },
