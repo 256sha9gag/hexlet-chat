@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-import React, { useState, createContext, useMemo } from 'react';
+import React, { useState, createContext } from 'react';
 import localStorageTools from '../services/localStorageTools';
 
 export const AuthContext = createContext({});
