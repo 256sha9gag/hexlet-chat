@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
 import filter from 'leo-profanity';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
+import Rollbar from 'rollbar';
 
 import App from './components/App';
 import SocketProvider from './context/SocketProvider';
@@ -27,7 +28,7 @@ const Init = () => {
   filter.add(filter.getDictionary('ru'));
 
   const rollbarConfig = {
-    accessToken: `${process.env.ROLLBAR_TOKEN}`,
+    accessToken: process.env.ROLLBAR_TOKEN,
     payload: {
       environment: 'production',
     },
@@ -35,8 +36,10 @@ const Init = () => {
     captureUnhandledRejections: true,
   };
 
+  const rollbar = new Rollbar(rollbarConfig);
+
   return (
-    <RollbarProvider config={rollbarConfig}>
+    <RollbarProvider rollbar={rollbar}>
       <ErrorBoundary>
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
