@@ -28,10 +28,13 @@ const Init = () => {
 
   const rollbarConfig = {
     accessToken: process.env.ROLLBAR_ACCSESS_TOKEN_PROD,
-    environment: 'production',
+    environment: 'testenv',
   };
 
-  console.log(process.env.ROLLBAR_ACCSESS_TOKEN_PROD);
+  function TestError() {
+    const a = null;
+    return a.hello();
+  }
 
   return (
     <RollbarProvider config={rollbarConfig}>
@@ -41,6 +44,7 @@ const Init = () => {
             <SocketProvider socket={socket}>
               <AuthProvider>
                 <App />
+                <TestError />
               </AuthProvider>
             </SocketProvider>
           </I18nextProvider>

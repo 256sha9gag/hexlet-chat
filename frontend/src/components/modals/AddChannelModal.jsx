@@ -61,7 +61,7 @@ const AddChannelModal = ({ channelsNames }) => {
               isInvalid={formik.errors.newChannel}
               ref={inputRef}
             />
-            <Form.Label className="visually-hidden" htmlFor="name">
+            <Form.Label className="visually-hidden" controlId="name">
               {t('modal.formLabel')}
             </Form.Label>
             <Form.Control.Feedback
