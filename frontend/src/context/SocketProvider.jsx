@@ -1,7 +1,5 @@
-/* eslint-disable react/jsx-no-constructed-context-values */
-import { createContext } from 'react';
+import React, { createContext, useMemo, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useRollbar } from '@rollbar/react';
@@ -17,26 +15,7 @@ const SocketProvider = ({ children, socket }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  socket.on('newChannel', (payload) => {
-    dispatch(channelActions.addChannel(payload));
-    dispatch(currentChannelIdActions.setCurrentChannelId(payload.id));
-  });
-
-  socket.on('removeChannel', (payload) => {
-    dispatch(channelActions
-      .removeChannel(payload.id));
-  });
-
-  socket.on('renameChannel', (payload) => {
-    dispatch(channelActions
-      .updateChannel({ id: payload.id, changes: { name: payload.name } }));
-  });
-
-  socket.on('newMessage', (payload) => {
-    dispatch(messagesActions.addMessage(payload));
-  });
-
-  const addChannel = (channelName) => {
+  const addChannel = useCallback((channelName) => {
     socket.emit('newChannel', { name: channelName }, (response) => {
       if (response.status === 'ok') {
         toast.success(t('toast.create'));
@@ -45,9 +24,9 @@ const SocketProvider = ({ children, socket }) => {
         rollbar.error(t('rollbar.newChannel'));
       }
     });
-  };
+  }, [t, rollbar, socket]);
 
-  const removeChannel = (removeChannelId) => {
+  const removeChannel = useCallback((removeChannelId) => {
     socket.emit('removeChannel', removeChannelId, (response) => {
       if (response.status === 'ok') {
         toast.success(t('toast.remove'));
@@ -56,9 +35,9 @@ const SocketProvider = ({ children, socket }) => {
         rollbar.error(t('rollbar.removeChannel'));
       }
     });
-  };
+  }, [t, rollbar, socket]);
 
-  const renameChannel = (renamedChannel) => {
+  const renameChannel = useCallback((renamedChannel) => {
     socket.emit('renameChannel', renamedChannel, (response) => {
       if (response.status === 'ok') {
         toast.success(t('toast.rename'));
@@ -67,25 +46,40 @@ const SocketProvider = ({ children, socket }) => {
         rollbar.error(t('rollbar.renameChannel'));
       }
     });
-  };
+  }, [t, rollbar, socket]);
 
-  const sendMessage = (msg) => {
+  const sendMessage = useCallback((msg) => {
     socket.emit('newMessage', msg, (response) => {
       if (response.status !== 'ok') {
         toast.error(t('toast.error'));
         rollbar.error(t('rollbar.newMeassage'));
       }
     });
-  };
+  }, [t, rollbar, socket]);
+
+  const memoizedContext = useMemo(() => ({
+    sendMessage, addChannel, renameChannel, removeChannel,
+  }), [sendMessage, addChannel, renameChannel, removeChannel]);
+
+  socket.on('newChannel', (payload) => {
+    dispatch(channelActions.addChannel(payload));
+    dispatch(currentChannelIdActions.setCurrentChannelId(payload.id));
+  });
+
+  socket.on('removeChannel', (payload) => {
+    dispatch(channelActions.removeChannel(payload.id));
+  });
+
+  socket.on('renameChannel', (payload) => {
+    dispatch(channelActions.updateChannel({ id: payload.id, changes: { name: payload.name } }));
+  });
+
+  socket.on('newMessage', (payload) => {
+    dispatch(messagesActions.addMessage(payload));
+  });
 
   return (
-    <SocketContext.Provider value={{
-      sendMessage,
-      addChannel,
-      renameChannel,
-      removeChannel,
-    }}
-    >
+    <SocketContext.Provider value={memoizedContext}>
       {children}
     </SocketContext.Provider>
   );
