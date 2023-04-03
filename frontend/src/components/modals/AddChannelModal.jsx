@@ -50,27 +50,24 @@ const AddChannelModal = ({ channelsNames }) => {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          <div>
+          <Form.Group className="mb-3" controlId="name">
+            <Form.Label>{t('modal.rename')}</Form.Label>
             <Form.Control
               name="name"
               id="name"
               className="mb-2"
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
               value={formik.values.newChannel}
               isInvalid={formik.errors.newChannel}
               ref={inputRef}
             />
-            <Form.Label className="visually-hidden" controlId="name">
-              {t('modal.formLabel')}
-            </Form.Label>
             <Form.Control.Feedback
               type="invalid"
               className="text-danger"
             >
               {formik.errors.newChannel}
             </Form.Control.Feedback>
-          </div>
+          </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer>
