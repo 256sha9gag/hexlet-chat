@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 
 import { actions as currentChannelIdActions } from '../store/slice/currentChannelIdSlice';
 import { actions as modalAction } from '../store/slice/modalSlice';
-import { t } from 'i18next';
 
 const RenderChannels = (channel, currentId, dispatch, translate) => {
   const { name, removable, id } = channel;
@@ -59,7 +58,7 @@ const RenderChannels = (channel, currentId, dispatch, translate) => {
               variant={activeButton}
               id="dropdown-split-basic"
             >
-              <span className="visually-hidden">{t('sideNavbar.control')}</span>
+              <span className="visually-hidden">{translate('sideNavbar.control')}</span>
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
