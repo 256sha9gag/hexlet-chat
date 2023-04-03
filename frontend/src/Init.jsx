@@ -27,16 +27,13 @@ const Init = () => {
   filter.add(filter.getDictionary('ru'));
 
   const rollbarConfig = {
-    accessToken: process.env.ROLLBAR,
-    environment: 'testenv',
+    accessToken: `${process.env.ROLLBAR_TOKEN}`,
+    payload: {
+      environment: 'production',
+    },
     captureUncaught: true,
     captureUnhandledRejections: true,
   };
-
-  function TestError() {
-    const a = null;
-    return a.hello();
-  }
 
   return (
     <RollbarProvider config={rollbarConfig}>
@@ -46,7 +43,6 @@ const Init = () => {
             <SocketProvider socket={socket}>
               <AuthProvider>
                 <App />
-                <TestError />
               </AuthProvider>
             </SocketProvider>
           </I18nextProvider>
