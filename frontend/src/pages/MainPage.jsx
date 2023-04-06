@@ -19,6 +19,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import AddChannelModal from '../components/modals/AddChannelModal';
 import RemoveChannelModal from '../components/modals/RemoveChannelModal';
 import RenameChannelModal from '../components/modals/RenameChannelModal';
+import useAuth from '../hooks/authContext';
 
 const MainPage = () => {
   const rollbar = useRollbar();
@@ -29,7 +30,7 @@ const MainPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(routes.usersPath(), { headers: getAuthHeader() });
+        const response = await axios.get(routes.usersPath(), { headers: useAuth.getAuthHeader() });
         const { channels, currentChannelId, messages } = response.data;
         dispatch(channelsActions.addChannels(channels));
         dispatch(currentChannelIdActions.setCurrentChannelId(currentChannelId));
