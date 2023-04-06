@@ -38,7 +38,6 @@ const AddChannelModal = ({ channelsNames }) => {
     onSubmit: (values) => {
       formik.setSubmitting(false);
       socket.addChannel(filter.clean(values.newChannel));
-      console.log(values);
       handleClose();
     },
   });
