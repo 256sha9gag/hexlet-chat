@@ -14,9 +14,7 @@ import { actions as messagesActions } from '../../store/slice/messagesSlice';
 import SideBar from '../SideBar';
 import Chat from '../Chat';
 import LoadingSpinner from '../LoadingSpinner';
-import AddChannelModal from '../modals/AddChannelModal';
-import RemoveChannelModal from '../modals/RemoveChannelModal';
-import RenameChannelModal from '../modals/RenameChannelModal';
+import GeneralModal from '../modals/GeneralModal';
 import useAuth from '../../hooks/authContext';
 
 const MainPage = () => {
@@ -50,21 +48,11 @@ const MainPage = () => {
   const channels = useSelector((state) => Object.values(state.channelsReducer.entities));
   const currentChannelId = useSelector((state) => state
     .channelsReducer.currentChannelId);
-  const modal = useSelector(({ modalReducer }) => modalReducer.modalAction);
   const channelsNames = channels.map((channel) => channel.name);
   const allMessages = useSelector((state) => Object.values(state.messagesReducer.entities));
   const currentChannelMessages = allMessages
     .filter(({ channelId }) => channelId === currentChannelId);
   const currentChannel = channels.find(({ id }) => id === currentChannelId);
-
-  const modalActions = {
-    addChannel: <AddChannelModal channelsNames={channelsNames} />,
-    removeChannel: <RemoveChannelModal />,
-    renameChannel: <RenameChannelModal channelsNames={channelsNames} />,
-    disableShow: null,
-  };
-
-  const getModal = (action) => modalActions[action];
 
   return (
     <Container className="h-100 my-5 overflow-hidden rounded">
@@ -81,7 +69,7 @@ const MainPage = () => {
               currentChannelName={currentChannel.name}
             />
           </Row>
-          {getModal(modal)}
+          <GeneralModal channelsNames={channelsNames} />
         </>
       ) : (
         <LoadingSpinner />

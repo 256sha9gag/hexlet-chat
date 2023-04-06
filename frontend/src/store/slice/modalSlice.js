@@ -2,17 +2,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const modalActionsSlice = createSlice({
-  name: 'modalAction',
+  name: 'modalActions',
   initialState: {
-    modalAction: 'disableShow',
-    id: '',
+    modalAction: null,
+    isOpen: false,
+    id: null,
   },
   reducers: {
-    setModalAction: (state, { payload }) => {
-      state.modalAction = payload;
+    openModal: (state, { payload }) => {
+      const { modalAction, id } = payload;
+      state.modalAction = modalAction;
+      state.isOpen = true;
+      state.id = id;
     },
-    setChannelId: (state, { payload }) => {
-      state.id = payload;
+    closeModal: (state) => {
+      state.isOpen = false;
     },
   },
 });

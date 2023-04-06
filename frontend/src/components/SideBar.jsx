@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { actions as channelsActions } from '../store/slice/channelSlice';
-import { actions as modalAction } from '../store/slice/modalSlice';
+import { actions as modalActions } from '../store/slice/modalSlice';
 
 const RenderChannels = (channel, currentId, dispatch, translate) => {
   const { name, removable, id } = channel;
@@ -17,13 +17,11 @@ const RenderChannels = (channel, currentId, dispatch, translate) => {
   };
 
   const handleModalRenameChannel = (renameChannelId) => {
-    dispatch(modalAction.setModalAction('renameChannel'));
-    dispatch(modalAction.setChannelId(renameChannelId));
+    dispatch(modalActions.openModal({ modalAction: 'renameChannel', id: renameChannelId }));
   };
 
   const handleModalDeleteChannel = (removeChannelId) => {
-    dispatch(modalAction.setModalAction('removeChannel'));
-    dispatch(modalAction.setChannelId(removeChannelId));
+    dispatch(modalActions.openModal({ modalAction: 'removeChannel', id: removeChannelId }));
   };
 
   return (
@@ -86,7 +84,7 @@ const SideBar = ({ channels, currentChannelId }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const handleModalAddChannel = () => {
-    dispatch(modalAction.setModalAction('addChannel'));
+    dispatch(modalActions.openModal({ id: currentChannelId, modalAction: 'addChannel' }));
   };
 
   return (

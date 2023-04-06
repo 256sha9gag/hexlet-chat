@@ -1,21 +1,17 @@
 import React, { useRef, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import filter from 'leo-profanity';
 
-import { actions as modalAction } from '../../store/slice/modalSlice';
 import useChatApi from '../../hooks/useChatApi';
 
-const AddChannelModal = ({ channelsNames }) => {
+const AddChannelModal = ({ channelsNames, handleClose }) => {
   const { t } = useTranslation();
   const chatApi = useChatApi();
-  const dispatch = useDispatch();
   const inputRef = useRef(null);
-  const handleClose = () => dispatch(modalAction.setModalAction('disableShow'));
 
   useEffect(() => {
     inputRef.current.focus();
@@ -43,7 +39,7 @@ const AddChannelModal = ({ channelsNames }) => {
   });
 
   return (
-    <Modal show="true" onHide={handleClose} centered>
+    <>
       <Modal.Header closeButton>
         <Modal.Title>{t('modal.add')}</Modal.Title>
       </Modal.Header>
@@ -82,7 +78,7 @@ const AddChannelModal = ({ channelsNames }) => {
           {t('modal.sendButton')}
         </Button>
       </Modal.Footer>
-    </Modal>
+    </>
   );
 };
 

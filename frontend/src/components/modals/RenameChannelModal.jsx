@@ -1,21 +1,16 @@
 import React, { useRef, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 
-import { actions as modalAction } from '../../store/slice/modalSlice';
 import useChatApi from '../../hooks/useChatApi';
 
-const RenameChannelModal = ({ channelsNames }) => {
+const RenameChannelModal = ({ channelsNames, id, handleClose }) => {
   const chatApi = useChatApi();
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const handleClose = () => dispatch(modalAction.setModalAction('disableShow'));
 
-  const selectedChannelId = useSelector(({ modalReducer }) => modalReducer.id);
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -38,7 +33,7 @@ const RenameChannelModal = ({ channelsNames }) => {
     onSubmit: (values) => {
       formik.setSubmitting(false);
       chatApi.renameChannel({
-        id: selectedChannelId,
+        id,
         name: filter.clean(values.renameChannel),
       });
       handleClose();
@@ -46,7 +41,7 @@ const RenameChannelModal = ({ channelsNames }) => {
   });
 
   return (
-    <Modal show="true" onHide={handleClose} centered>
+    <>
       <Modal.Header closeButton>
         <Modal.Title>{t('modal.rename')}</Modal.Title>
       </Modal.Header>
@@ -87,7 +82,7 @@ const RenameChannelModal = ({ channelsNames }) => {
           {t('modal.removeButton')}
         </Button>
       </Modal.Footer>
-    </Modal>
+    </>
   );
 };
 

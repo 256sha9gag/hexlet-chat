@@ -1,12 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { actions as modalAction } from '../../store/slice/modalSlice';
 import useChatApi from '../../hooks/useChatApi';
 
-const RemoveChannelModal = () => {
+const RemoveChannelModal = ({ id, handleClose }) => {
   const { t } = useTranslation();
   const submitButton = useRef(null);
   useEffect(() => {
@@ -14,19 +12,15 @@ const RemoveChannelModal = () => {
   }, []);
   const chatApi = useChatApi();
   const [isDisable, setIsDisable] = useState(false);
-  const dispatch = useDispatch();
-  const handleClose = () => dispatch(modalAction.setModalAction('disableShow'));
-  const handleSubmit = (id) => (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsDisable(true);
     chatApi.removeChannel({ id });
     handleClose();
   };
 
-  const selectedChannelId = useSelector(({ modalReducer }) => modalReducer.id);
-
   return (
-    <Modal show="true" onHide={handleClose} centered>
+    <>
       <Modal.Header closeButton>
         <Modal.Title>{t('modal.removeTitle')}</Modal.Title>
       </Modal.Header>
@@ -43,13 +37,13 @@ const RemoveChannelModal = () => {
           ref={submitButton}
           variant="danger"
           type="submit"
-          onClick={handleSubmit(selectedChannelId)}
+          onClick={handleSubmit}
           disabled={isDisable}
         >
           {t('modal.removeButton')}
         </Button>
       </Modal.Footer>
-    </Modal>
+    </>
   );
 };
 
