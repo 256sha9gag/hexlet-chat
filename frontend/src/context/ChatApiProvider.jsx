@@ -6,7 +6,6 @@ import { useRollbar } from '@rollbar/react';
 
 import { actions as messagesActions } from '../store/slice/messagesSlice';
 import { actions as channelActions } from '../store/slice/channelSlice';
-import { actions as currentChannelIdActions } from '../store/slice/currentChannelIdSlice';
 
 export const ChatApiContext = createContext({});
 
@@ -63,7 +62,6 @@ const ChatApiProvider = ({ children, socket }) => {
 
   socket.on('newChannel', (payload) => {
     dispatch(channelActions.addChannel(payload));
-    dispatch(currentChannelIdActions.setCurrentChannelId(payload.id));
   });
 
   socket.on('removeChannel', (payload) => {
