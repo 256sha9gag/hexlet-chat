@@ -6,10 +6,10 @@ import { ToastContainer } from 'react-toastify';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'react-toastify/dist/ReactToastify.css';
 
-import MainPage from '../pages/MainPage';
-import SignInPage from '../pages/SignInPage';
-import SignUpPage from '../pages/SignUpPage';
-import NotFoundPage from '../pages/NotFoundPage';
+import MainPage from './pages/MainPage';
+import SignInPage from './pages/SignInPage';
+import SignUpPage from './pages/SignUpPage';
+import NotFoundPage from './pages/NotFoundPage';
 import Header from './Header';
 import PrivateRoute from './ChatPrivateRoute';
 import routes from '../routes.js';
