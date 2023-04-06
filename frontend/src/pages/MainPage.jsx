@@ -25,7 +25,7 @@ const MainPage = () => {
   const rollbar = useRollbar();
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,9 +35,9 @@ const MainPage = () => {
         dispatch(channelsActions.addChannels(channels));
         dispatch(currentChannelIdActions.setCurrentChannelId(currentChannelId));
         dispatch(messagesActions.addMessages(messages));
-        setIsLoading(true);
+        setIsLoaded(true);
       } catch (e) {
-        setIsLoading(false);
+        setIsLoaded(false);
         rollbar.error(t('rollbar.getData'), e);
         toast.error(t('toast.error'));
         throw e;
@@ -65,7 +65,7 @@ const MainPage = () => {
 
   return (
     <Container className="h-100 my-5 overflow-hidden rounded">
-      {isLoading ? (
+      {isLoaded ? (
         <>
           <Row className="h-100 bg-white">
             <SideBar
