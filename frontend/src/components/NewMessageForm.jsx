@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 
-import useChatApi from '../hooks/chatApiContext';
+import useChatApi from '../hooks/useChatApi';
 
 const NewMessageForm = ({ username, currentChannelId }) => {
   const { t } = useTranslation();

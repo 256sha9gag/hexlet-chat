@@ -5,7 +5,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { actions as currentChannelIdActions } from '../store/slice/currentChannelIdSlice';
+import { actions as channelsActions } from '../store/slice/channelSlice';
 import { actions as modalAction } from '../store/slice/modalSlice';
 
 const RenderChannels = (channel, currentId, dispatch, translate) => {
@@ -13,7 +13,7 @@ const RenderChannels = (channel, currentId, dispatch, translate) => {
   const activeButton = id === currentId ? 'secondary' : null;
 
   const handleClick = (newCurrentId) => {
-    dispatch(currentChannelIdActions.setCurrentChannelId(newCurrentId));
+    dispatch(channelsActions.setCurrentChannelId(newCurrentId));
   };
 
   const handleModalRenameChannel = (renameChannelId) => {
