@@ -8,7 +8,6 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useRollbar } from '@rollbar/react';
 
-import getAuthHeader from '../services/getAuthHeader';
 import routes from '../routes';
 import { actions as channelsActions } from '../store/slice/channelSlice';
 import { actions as currentChannelIdActions } from '../store/slice/currentChannelIdSlice';
