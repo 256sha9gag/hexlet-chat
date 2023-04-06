@@ -8,7 +8,7 @@ import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import Rollbar from 'rollbar';
 
 import App from './components/App';
-import SocketProvider from './context/SocketProvider';
+import SocketProvider from './context/ChatApiProvider';
 import AuthProvider from './context/AuthProvider';
 import resources from './locales/index';
 import store from './store/index';

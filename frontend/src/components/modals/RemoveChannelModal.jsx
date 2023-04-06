@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { actions as modalAction } from '../../store/slice/modalSlice';
-import useSocket from '../../hooks/socketContext';
+import useSocket from '../../hooks/chatApiContext';
 
 const RemoveChannelModal = () => {
   const { t } = useTranslation();

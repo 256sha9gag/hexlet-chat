@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 
 import { actions as modalAction } from '../../store/slice/modalSlice';
-import useSocket from '../../hooks/socketContext';
+import useSocket from '../../hooks/chatApiContext';
 
 const RenameChannelModal = ({ channelsNames }) => {
   const socket = useSocket();
