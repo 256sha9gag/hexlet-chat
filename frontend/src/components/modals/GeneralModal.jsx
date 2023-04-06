@@ -14,7 +14,11 @@ const GeneralModal = ({ channelsNames }) => {
   const actions = {
     addChannel: <AddChannelModal channelsNames={channelsNames} handleClose={handleClose} />,
     removeChannel: <RemoveChannelModal handleClose={handleClose} id={id} />,
-    renameChannel: <RenameChannelModal channelsNames={channelsNames} handleClose={handleClose} />,
+    renameChannel: <RenameChannelModal
+      channelsNames={channelsNames}
+      handleClose={handleClose}
+      id={id}
+    />,
   };
 
   return (
