@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { actions as modalAction } from '../../store/slice/modalSlice';
-import useSocket from '../../hooks/chatApiContext';
+import useChatApi from '../../hooks/chatApiContext';
 
 const RemoveChannelModal = () => {
   const { t } = useTranslation();
@@ -12,14 +12,14 @@ const RemoveChannelModal = () => {
   useEffect(() => {
     submitButton.current.focus();
   }, []);
-  const socket = useSocket();
+  const chatApi = useChatApi();
   const [isDisable, setIsDisable] = useState(false);
   const dispatch = useDispatch();
   const handleClose = () => dispatch(modalAction.setModalAction('disableShow'));
   const handleSubmit = (id) => (e) => {
     e.preventDefault();
     setIsDisable(true);
-    socket.removeChannel({ id });
+    chatApi.removeChannel({ id });
     handleClose();
   };
 

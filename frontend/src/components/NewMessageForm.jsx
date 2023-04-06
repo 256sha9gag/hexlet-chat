@@ -5,12 +5,12 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 
-import useSocket from '../hooks/chatApiContext';
+import useChatApi from '../hooks/chatApiContext';
 
 const NewMessageForm = ({ username, currentChannelId }) => {
   const { t } = useTranslation();
   const inputRef = useRef();
-  const socket = useSocket();
+  const chatApi = useChatApi();
 
   useEffect(() => {
     inputRef.current.focus();
@@ -27,7 +27,7 @@ const NewMessageForm = ({ username, currentChannelId }) => {
     onSubmit: (values) => {
       const { newMessage } = values;
       formik.resetForm();
-      socket.sendMessage({
+      chatApi.sendMessage({
         body: filter.clean(newMessage),
         channelId: currentChannelId,
         username,

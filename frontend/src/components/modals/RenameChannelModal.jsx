@@ -8,10 +8,10 @@ import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 
 import { actions as modalAction } from '../../store/slice/modalSlice';
-import useSocket from '../../hooks/chatApiContext';
+import useChatApi from '../../hooks/chatApiContext';
 
 const RenameChannelModal = ({ channelsNames }) => {
-  const socket = useSocket();
+  const chatApi = useChatApi();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const handleClose = () => dispatch(modalAction.setModalAction('disableShow'));
@@ -38,7 +38,7 @@ const RenameChannelModal = ({ channelsNames }) => {
     }),
     onSubmit: (values) => {
       formik.setSubmitting(false);
-      socket.renameChannel({
+      chatApi.renameChannel({
         id: selectedChannelId,
         name: filter.clean(values.renameChannel),
       });

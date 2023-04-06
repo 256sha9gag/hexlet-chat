@@ -8,11 +8,11 @@ import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 
 import { actions as modalAction } from '../../store/slice/modalSlice';
-import useSocket from '../../hooks/chatApiContext';
+import useChatApi from '../../hooks/chatApiContext';
 
 const AddChannelModal = ({ channelsNames }) => {
   const { t } = useTranslation();
-  const socket = useSocket();
+  const chatApi = useChatApi();
   const dispatch = useDispatch();
   const inputRef = useRef(null);
   const handleClose = () => dispatch(modalAction.setModalAction('disableShow'));
@@ -37,7 +37,7 @@ const AddChannelModal = ({ channelsNames }) => {
 
     onSubmit: (values) => {
       formik.setSubmitting(false);
-      socket.addChannel(filter.clean(values.newChannel));
+      chatApi.addChannel(filter.clean(values.newChannel));
       handleClose();
     },
   });
