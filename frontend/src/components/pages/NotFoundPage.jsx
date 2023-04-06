@@ -3,8 +3,8 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import routes from '../routes';
-import notFound from '../assets/notFound.svg';
+import routes from '../../routes';
+import notFound from '../../assets/notFound.svg';
 
 const NotFoundPage = () => {
   const { t } = useTranslation();

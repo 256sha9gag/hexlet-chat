@@ -8,17 +8,16 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useRollbar } from '@rollbar/react';
 
-import routes from '../routes';
-import { actions as channelsActions } from '../store/slice/channelSlice';
-import { actions as currentChannelIdActions } from '../store/slice/currentChannelIdSlice';
-import { actions as messagesActions } from '../store/slice/messagesSlice';
-import SideBar from '../components/SideBar';
-import Chat from '../components/Chat';
-import LoadingSpinner from '../components/LoadingSpinner';
-import AddChannelModal from '../components/modals/AddChannelModal';
-import RemoveChannelModal from '../components/modals/RemoveChannelModal';
-import RenameChannelModal from '../components/modals/RenameChannelModal';
-import useAuth from '../hooks/authContext';
+import routes from '../../routes';
+import { actions as channelsActions } from '../../store/slice/channelSlice';
+import { actions as messagesActions } from '../../store/slice/messagesSlice';
+import SideBar from '../SideBar';
+import Chat from '../Chat';
+import LoadingSpinner from '../LoadingSpinner';
+import AddChannelModal from '../modals/AddChannelModal';
+import RemoveChannelModal from '../modals/RemoveChannelModal';
+import RenameChannelModal from '../modals/RenameChannelModal';
+import useAuth from '../../hooks/authContext';
 
 const MainPage = () => {
   const auth = useAuth();
@@ -33,7 +32,7 @@ const MainPage = () => {
         const response = await axios.get(routes.usersPath(), { headers: auth.getAuthHeader() });
         const { channels, currentChannelId, messages } = response.data;
         dispatch(channelsActions.addChannels(channels));
-        dispatch(currentChannelIdActions.setCurrentChannelId(currentChannelId));
+        dispatch(channelsActions.setCurrentChannelId(currentChannelId));
         dispatch(messagesActions.addMessages(messages));
         setIsLoaded(true);
       } catch (e) {
@@ -49,8 +48,8 @@ const MainPage = () => {
   }, []);
 
   const channels = useSelector((state) => Object.values(state.channelsReducer.entities));
-  const currentChannelId = useSelector(({ currentChannelIdReducer }) => currentChannelIdReducer
-    .currentChannelId);
+  const currentChannelId = useSelector((state) => state
+    .channelsReducer.currentChannelId);
   const modal = useSelector(({ modalReducer }) => modalReducer.modalAction);
   const channelsNames = channels.map((channel) => channel.name);
 

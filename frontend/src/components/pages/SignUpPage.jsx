@@ -10,9 +10,9 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useRollbar } from '@rollbar/react';
 
-import routes from '../routes';
-import useAuth from '../hooks/authContext';
-import signUpImg from '../assets/signUpImg.jpg';
+import routes from '../../routes';
+import useAuth from '../../hooks/authContext';
+import signUpImg from '../../assets/signUpImg.jpg';
 
 const SignUpPage = () => {
   const rollbar = useRollbar();
