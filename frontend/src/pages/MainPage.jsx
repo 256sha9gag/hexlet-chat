@@ -21,6 +21,7 @@ import RenameChannelModal from '../components/modals/RenameChannelModal';
 import useAuth from '../hooks/authContext';
 
 const MainPage = () => {
+  const auth = useAuth();
   const rollbar = useRollbar();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const MainPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(routes.usersPath(), { headers: useAuth.getAuthHeader() });
+        const response = await axios.get(routes.usersPath(), { headers: auth.getAuthHeader() });
         const { channels, currentChannelId, messages } = response.data;
         dispatch(channelsActions.addChannels(channels));
         dispatch(currentChannelIdActions.setCurrentChannelId(currentChannelId));

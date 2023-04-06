@@ -39,7 +39,7 @@ const Init = () => {
   const rollbar = new Rollbar(rollbarConfig);
 
   return (
-    <RollbarProvider rollbar={rollbar}>
+    <RollbarProvider config={rollbar}>
       <ErrorBoundary>
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
