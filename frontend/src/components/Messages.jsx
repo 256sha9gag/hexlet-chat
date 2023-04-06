@@ -1,25 +1,17 @@
 import React, { useRef, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 
-import { actions as messagesCountActions } from '../store/slice/messagesCountSlice';
-
-const Messages = ({ currentChannelId }) => {
-  const dispatch = useDispatch();
-  const messages = useSelector((state) => Object.values(state.messagesReducer.entities));
-  const currentChannelMessages = messages.filter(({ channelId }) => channelId === currentChannelId);
-  const channelMessagesCount = currentChannelMessages.length;
+const Messages = ({ currentChannelId, currentChannelMessages }) => {
   const messagesEndRef = useRef();
 
   useEffect(() => {
-    dispatch(messagesCountActions.setMessagesCount(channelMessagesCount));
     const messagesEnd = messagesEndRef.current;
     if (messagesEnd) {
       messagesEnd.scrollIntoView({ block: 'end' });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentChannelId, channelMessagesCount]);
+  }, [currentChannelId, currentChannelMessages]);
 
-  return (channelMessagesCount !== 0) ? (
+  return (currentChannelMessages.length !== 0) ? (
     <div className="px-5 overflow-auto h-auto">
       {currentChannelMessages.map((message) => (
         <div key={message.id} className="text-break mb-2">

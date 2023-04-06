@@ -52,6 +52,10 @@ const MainPage = () => {
     .channelsReducer.currentChannelId);
   const modal = useSelector(({ modalReducer }) => modalReducer.modalAction);
   const channelsNames = channels.map((channel) => channel.name);
+  const allMessages = useSelector((state) => Object.values(state.messagesReducer.entities));
+  const currentChannelMessages = allMessages
+    .filter(({ channelId }) => channelId === currentChannelId);
+  const currentChannel = channels.find(({ id }) => id === currentChannelId);
 
   const modalActions = {
     addChannel: <AddChannelModal channelsNames={channelsNames} />,
@@ -72,8 +76,9 @@ const MainPage = () => {
               currentChannelId={currentChannelId}
             />
             <Chat
-              channels={channels}
+              currentChannelMessages={currentChannelMessages}
               currentChannelId={currentChannelId}
+              currentChannelName={currentChannel.name}
             />
           </Row>
           {getModal(modal)}

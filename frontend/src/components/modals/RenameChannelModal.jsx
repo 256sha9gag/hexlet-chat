@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import filter from 'leo-profanity';
 
 import { actions as modalAction } from '../../store/slice/modalSlice';
