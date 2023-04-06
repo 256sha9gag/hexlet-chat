@@ -55,7 +55,6 @@ const AddChannelModal = ({ channelsNames }) => {
             <Form.Control
               type="text"
               name="newChannel"
-              id="newChannel"
               className="mb-2"
               onChange={formik.handleChange}
               value={formik.values.newChannel}
