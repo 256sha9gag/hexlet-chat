@@ -1,8 +1,5 @@
 import React, { createContext, useMemo, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
-import { useRollbar } from '@rollbar/react';
 
 import { actions as messagesActions } from '../store/slice/messagesSlice';
 import { actions as channelActions } from '../store/slice/channelSlice';
@@ -10,51 +7,31 @@ import { actions as channelActions } from '../store/slice/channelSlice';
 export const ChatApiContext = createContext({});
 
 const ChatApiProvider = ({ children, socket }) => {
-  const rollbar = useRollbar();
   const dispatch = useDispatch();
-  const { t } = useTranslation();
 
-  const addChannel = useCallback((channelName) => {
+  const addChannel = useCallback((channelName, addChannelCb) => {
     socket.emit('newChannel', { name: channelName }, (response) => {
-      if (response.status === 'ok') {
-        toast.success(t('toast.create'));
-      } else {
-        toast.error(t('toast.error'));
-        rollbar.error(t('rollbar.newChannel'));
-      }
+      addChannelCb(response);
     });
-  }, [t, rollbar, socket]);
+  }, [socket]);
 
-  const removeChannel = useCallback((removeChannelId) => {
+  const removeChannel = useCallback((removeChannelId, removeChannelCb) => {
     socket.emit('removeChannel', removeChannelId, (response) => {
-      if (response.status === 'ok') {
-        toast.success(t('toast.remove'));
-      } else {
-        toast.error(t('toast.error'));
-        rollbar.error(t('rollbar.removeChannel'));
-      }
+      removeChannelCb(response);
     });
-  }, [t, rollbar, socket]);
+  }, [socket]);
 
-  const renameChannel = useCallback((renamedChannel) => {
+  const renameChannel = useCallback((renamedChannel, renameChannelCb) => {
     socket.emit('renameChannel', renamedChannel, (response) => {
-      if (response.status === 'ok') {
-        toast.success(t('toast.rename'));
-      } else {
-        toast.error(t('toast.error'));
-        rollbar.error(t('rollbar.renameChannel'));
-      }
+      renameChannelCb(response);
     });
-  }, [t, rollbar, socket]);
+  }, [socket]);
 
-  const sendMessage = useCallback((msg) => {
+  const sendMessage = useCallback((msg, newMessageCb) => {
     socket.emit('newMessage', msg, (response) => {
-      if (response.status !== 'ok') {
-        toast.error(t('toast.error'));
-        rollbar.error(t('rollbar.newMeassage'));
-      }
+      newMessageCb(response);
     });
-  }, [t, rollbar, socket]);
+  }, [socket]);
 
   const memoizedContext = useMemo(() => ({
     sendMessage, addChannel, renameChannel, removeChannel,

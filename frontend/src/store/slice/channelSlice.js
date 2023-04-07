@@ -12,11 +12,7 @@ const channelsSlice = createSlice({
   initialState,
   reducers: {
     addChannels: channelsAdapter.addMany,
-    addChannel: (state, action) => {
-      channelsAdapter.addOne(state, action);
-      const { id } = action.payload;
-      state.currentChannelId = id;
-    },
+    addChannel: channelsAdapter.addOne,
     removeChannel: (state, action) => {
       channelsAdapter.removeOne(state, action);
       const { payload } = action;

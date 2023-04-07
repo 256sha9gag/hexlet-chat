@@ -64,9 +64,9 @@ const MainPage = () => {
               currentChannelId={currentChannelId}
             />
             <Chat
-              currentChannelMessages={currentChannelMessages}
               currentChannelId={currentChannelId}
-              currentChannelName={currentChannel.name}
+              currentChannelMessages={currentChannelMessages}
+              currentChannel={currentChannel}
             />
           </Row>
           <GeneralModal channelsNames={channelsNames} />

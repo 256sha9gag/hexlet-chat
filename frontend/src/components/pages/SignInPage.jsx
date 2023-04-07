@@ -50,6 +50,7 @@ const SignInPage = () => {
       } catch (err) {
         formik.setSubmitting(true);
         if (err.isAxiosError && err.response.status === 401) {
+          auth.signOut();
           setIsAuth(true);
           inputRef.current.select();
           return;

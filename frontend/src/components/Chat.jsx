@@ -6,9 +6,8 @@ import Messages from './Messages';
 import NewMessageForm from './NewMessageForm';
 import localStorageTools from '../services/localStorageTools';
 
-const Chat = ({ currentChannelId, currentChannelMessages, currentChannelName }) => {
+const Chat = ({ currentChannelId, currentChannelMessages, currentChannel }) => {
   const { t } = useTranslation();
-  const channelName = ['#', currentChannelName].join(' ');
   const username = localStorageTools.getUsername();
 
   return (
@@ -17,7 +16,7 @@ const Chat = ({ currentChannelId, currentChannelMessages, currentChannelName }) 
         <div className="bg-light mb-4 p-3 shadow-sm border-bottom small">
           <p className="m-0">
             <b>
-              {channelName}
+              {currentChannel && ['#', currentChannel.name].join(' ')}
             </b>
           </p>
           <span className="text-muted m-0">

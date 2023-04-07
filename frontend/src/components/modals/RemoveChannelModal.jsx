@@ -1,12 +1,25 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { useRollbar } from '@rollbar/react';
+import { toast } from 'react-toastify';
 
 import useChatApi from '../../hooks/useChatApi';
 
 const RemoveChannelModal = ({ id, handleClose }) => {
   const { t } = useTranslation();
+  const rollbar = useRollbar();
   const submitButton = useRef(null);
+
+  const removeChannelCb = (response) => {
+    if (response.status === 'ok') {
+      toast.success(t('toast.remove'));
+    } else {
+      toast.error(t('toast.error'));
+      rollbar.error(t('rollbar.removeChannel'));
+    }
+  };
+
   useEffect(() => {
     submitButton.current.focus();
   }, []);
@@ -15,7 +28,7 @@ const RemoveChannelModal = ({ id, handleClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsDisable(true);
-    chatApi.removeChannel({ id });
+    chatApi.removeChannel({ id }, removeChannelCb);
     handleClose();
   };
 

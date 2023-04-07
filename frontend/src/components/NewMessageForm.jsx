@@ -4,17 +4,27 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
+import { toast } from 'react-toastify';
+import { useRollbar } from '@rollbar/react';
 
 import useChatApi from '../hooks/useChatApi';
 
 const NewMessageForm = ({ username, currentChannelId }) => {
   const { t } = useTranslation();
+  const rollbar = useRollbar();
   const inputRef = useRef();
   const chatApi = useChatApi();
 
   useEffect(() => {
     inputRef.current.focus();
   }, [currentChannelId]);
+
+  const newMessageCb = (response) => {
+    if (response.status !== 'ok') {
+      toast.error(t('toast.error'));
+      rollbar.error(t('rollbar.newMeassage'));
+    }
+  };
 
   const formik = useFormik({
     initialValues: { newMessage: '' },
@@ -31,7 +41,7 @@ const NewMessageForm = ({ username, currentChannelId }) => {
         body: filter.clean(newMessage),
         channelId: currentChannelId,
         username,
-      });
+      }, newMessageCb);
     },
   });
 
